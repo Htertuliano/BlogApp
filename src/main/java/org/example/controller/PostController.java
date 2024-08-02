@@ -1,4 +1,4 @@
-package org.example;
+package org.example.controller;
 
 import org.example.entity.Post;
 import org.example.PostService;
@@ -29,20 +29,23 @@ public class PostController {
     }
 
     @GetMapping("/{postId}")
-    public ResponseEntity<Post> getPostById(@PathVariable Long postId) {
+    public ResponseEntity<Post> getPostById(@PathVariable("postId") Long postId) {
         Post data = postService.getPostById(postId);
+        if (data == null)
+            return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
         return new ResponseEntity<>(data, HttpStatus.OK);
     }
 
     @PutMapping("/{postId}")
-    public ResponseEntity<Post> updatePost(@PathVariable Long postId, @RequestBody Post post) {
+    public ResponseEntity<Post> updatePost(@PathVariable("postId") Long postId,
+                                            @RequestBody Post post) {
         Post data = postService.updatePost(postId, post);
-        return new ResponseEntity<>(data, HttpStatus.OK);
+        return new ResponseEntity<>(data, HttpStatus.NO_CONTENT);
     }
 
     @DeleteMapping("/{postId}")
-    public ResponseEntity<Void> deletePost(@PathVariable Long postId) {
+    public ResponseEntity<String> deletePost(@PathVariable("postId") Long postId) {
         postService.deletePost(postId);
-        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        return new ResponseEntity<>("post deleted successfully", HttpStatus.NO_CONTENT);
     }
 }

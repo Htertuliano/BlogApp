@@ -2,14 +2,16 @@ package org.example.service.Impl;
 
 import org.example.entity.Comment;
 import org.example.entity.Post;
+import org.example.exception.BlogApiException;
+import org.example.exception.ResourceNotFoundException;
 import org.example.repository.CommentRepository;
 import org.example.repository.PostRepository;
 import org.example.service.CommentService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Set;
 
 @Service
 public class CommentServiceImpl implements CommentService {
@@ -24,7 +26,7 @@ public class CommentServiceImpl implements CommentService {
     public Comment createComment(Long postId, Comment comment) {
         Post post = postRepository
                 .findById(postId)
-                .orElseThrow(() -> new RuntimeException("Post with the id not found"));
+                .orElseThrow(() -> new ResourceNotFoundException("Post", "id", postId));
 
                 comment.setPost(post);
 
@@ -32,35 +34,58 @@ public class CommentServiceImpl implements CommentService {
     }
 
     @Override
-    public List<Comment> getAllComment() {
-        return commentRepository.findAll();
+    public List<Comment> getCommentsByPostId(Long postId) {
+        List<Comment> comments = commentRepository.findByPostId(postId);
+        return comments;
+    }
+    @Override
+    public Comment getCommentById(Long postId, Long commentId) {
+        // retrieve post by post id
+        Post post = postRepository
+                .findById(postId)
+                .orElseThrow(() -> new ResourceNotFoundException("post", "postId", postId));
+        // retrieve comment by commit id
+        Comment comment = commentRepository
+                .findById(commentId)
+                .orElseThrow(() -> new ResourceNotFoundException("comment", "commentId", commentId));
+        if (!comment.getPost().getId().equals(post.getId())) {
+            throw new BlogApiException(HttpStatus.BAD_REQUEST, "comment does not belong to post");
+        }
+        return comment;
     }
 
     @Override
-    public Comment getCommentsByPostId(Long postId) {
+    public Comment updateComment(Long postId, Long commentId, Comment updateComment) {
         Post post = postRepository
                 .findById(postId)
                 .orElseThrow(() -> new RuntimeException("Post with the id not found"));
 
-        return commentRepository.getById(postId);
+        Comment comment = commentRepository
+                .findById(commentId)
+                .orElseThrow(() -> new ResourceNotFoundException("comment", "commentId", commentId));
+        if (!comment.getPost().getId().equals(post.getId())) {
+            throw new BlogApiException(HttpStatus.BAD_REQUEST, "comment does not belong to post");
+        }
+        comment.setName(updateComment.getName());
+        comment.setEmail(updateComment.getEmail());
+        comment.setBody(updateComment.getBody());
+        return commentRepository.save(comment);
     }
 
     @Override
-    public Comment updateComment(Long postId, Comment newComment) {
+    public void deleteComment(Long postId, Long commentId) {
+        // retrieve post by post id
         Post post = postRepository
                 .findById(postId)
-                .orElseThrow(() -> new RuntimeException("Post with the id not found"));
-
-            newComment.setPost(post);
-            return commentRepository.save(newComment);
+                .orElseThrow(() -> new ResourceNotFoundException("post", "postId", postId));
+        // retrieve comment by commit id
+        Comment comment = commentRepository
+                .findById(commentId)
+                .orElseThrow(() -> new ResourceNotFoundException("comment", "commentId", commentId));
+        if (!comment.getPost().getId().equals(post.getId())) {
+            throw new BlogApiException(HttpStatus.BAD_REQUEST, "comment does not belong to post");
+        }
+        commentRepository.deleteById(commentId);
     }
 
-    @Override
-    public void deleteComment(Long postId, Comment comment) {
-        Post post = postRepository
-                .findById(postId)
-                .orElseThrow(() -> new RuntimeException("Post with the id not found"));
-        commentRepository.delete(comment);
-
-    }
 }

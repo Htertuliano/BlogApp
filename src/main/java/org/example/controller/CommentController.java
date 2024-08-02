@@ -9,7 +9,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 
-@RequestMapping("/api")
+
+@RequestMapping("/api/posts")
 @ResponseBody
 public class CommentController {
 
@@ -17,9 +18,17 @@ public class CommentController {
     private CommentService commentService;
 
     @PostMapping("{postId}/comments")
-    public ResponseEntity<Comment> createComment(@PathVariable("postId") Long postId, @RequestBody Comment comment){
+    public ResponseEntity<Comment> createComment(@PathVariable("postId") Long postId,
+                                                 @RequestBody Comment comment){
         Comment data = commentService.createComment(postId, comment);
         return new ResponseEntity<>(data, HttpStatus.CREATED);
+    }
+    @PutMapping("/{postId}/comments/{id}")
+    public ResponseEntity<Comment> updateComment(@PathVariable("postId") Long postId,
+                                                 @PathVariable("id") Long id,
+                                                  @RequestBody Comment comment) {
+        Comment data = commentService.updateComment(postId, id, comment);
+        return new ResponseEntity<>(data, HttpStatus.NO_CONTENT);
     }
 
     @GetMapping("{postId}/comments/{commentId}")
@@ -30,8 +39,8 @@ public class CommentController {
     }
 
     @DeleteMapping("{postId}/comments/{commentId}")
-    public ResponseEntity<Void> deleteComment(@PathVariable("postId") Long postId, @RequestBody Comment comment) {
-               commentService.deleteComment(postId, comment);
+    public ResponseEntity<Void> deleteComment(@PathVariable("postId") Long postId, @PathVariable Long commentId) {
+               commentService.deleteComment(postId, commentId);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
