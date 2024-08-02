@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.*;
 @ResponseBody
 public class CommentController {
 
+    @SuppressWarnings("SpringJavaInjectionPointsAutowiringInspection")
     @Autowired
     private CommentService commentService;
 
