@@ -1,6 +1,7 @@
-package org.example.repository;
+package org.example.rest.api.repository;
 
-import org.example.entity.Comment;
+
+import org.example.rest.api.entity.Comment;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;

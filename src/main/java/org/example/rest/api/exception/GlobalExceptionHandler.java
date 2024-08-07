@@ -1,6 +1,7 @@
-package org.example.exception;
+package org.example.rest.api.exception;
 
-import org.example.payload.ErrorDetail;
+
+import org.example.rest.api.payload.ErrorDetail;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.HttpStatusCode;

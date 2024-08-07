@@ -1,7 +1,9 @@
-package org.example.controller;
+package org.example.rest.api.controller;
 
-import org.example.entity.Post;
-import org.example.PostService;
+
+import org.example.rest.api.PostResponse;
+import org.example.rest.api.entity.Post;
+import org.example.rest.api.service.PostService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -23,8 +25,13 @@ public class PostController {
     }
 
     @GetMapping
-    public ResponseEntity<List<Post>> getAllPosts() {
-        List<Post> data = postService.getAllPosts();
+    public ResponseEntity<PostResponse> getAllPosts(
+        @RequestParam(value = "pageNo", defaultValue = "0", required = false) int pageNo,
+        @RequestParam(value = "pageSize", defaultValue = "10", required = false) int pageSize,
+        @RequestParam(value = "sortBy", defaultValue = "id", required = false) String sortBy,
+        @RequestParam(value = "sortDirection", defaultValue = "asc", required = false) String sortDirection
+        ){
+        PostResponse data = postService.getAllPosts(pageNo, pageSize, sortBy,sortDirection);
         return new ResponseEntity<>(data, HttpStatus.OK);
     }
 

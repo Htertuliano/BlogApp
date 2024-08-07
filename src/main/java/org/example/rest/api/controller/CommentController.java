@@ -1,10 +1,10 @@
-package org.example.controller;
+package org.example.rest.api.controller;
 
-import org.example.entity.Comment;
-import org.example.service.CommentService;
+
+import org.example.rest.api.entity.Comment;
+import org.example.rest.api.service.CommentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.*;
 @ResponseBody
 public class CommentController {
 
+    @SuppressWarnings("SpringJavaInjectionPointsAutowiringInspection")
     @Autowired
     private CommentService commentService;
 

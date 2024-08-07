@@ -1,6 +1,8 @@
-package org.example.service;
+package org.example.rest.api.service;
 
-import org.example.entity.Comment;
+
+
+import org.example.rest.api.entity.Comment;
 
 import java.util.List;
 

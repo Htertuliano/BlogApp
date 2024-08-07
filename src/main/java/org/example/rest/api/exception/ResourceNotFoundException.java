@@ -1,4 +1,4 @@
-package org.example.exception;
+package org.example.rest.api.exception;
 
 public class ResourceNotFoundException extends RuntimeException {
     private String resourceName;

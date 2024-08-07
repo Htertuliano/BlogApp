@@ -1,14 +1,15 @@
 server.port: 8080
 
 spring:
+  security:
+    user:
+      name: root
+    password: root
+    roles: admin
   datasource:
-    url:  jdbc:mysql://localhost:8000/blogdb
+    url:  jdbc:mysql://localhost:8080/blogdb
     username: root
     password: 442211
     driver-class-name: com.mysql.cj.jdbc.Driver
-    jps:
-      hibernate.ddl-auto:
-        show-sql: true
-        properties:
-          hibernate:
-            dialect: org.hibernate.dialect.MySQL5Dialect
+    jpa:
+

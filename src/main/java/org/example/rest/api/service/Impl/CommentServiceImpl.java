@@ -1,12 +1,13 @@
-package org.example.service.Impl;
+package org.example.rest.api.service.Impl;
 
-import org.example.entity.Comment;
-import org.example.entity.Post;
-import org.example.exception.BlogApiException;
-import org.example.exception.ResourceNotFoundException;
-import org.example.repository.CommentRepository;
-import org.example.repository.PostRepository;
-import org.example.service.CommentService;
+
+import org.example.rest.api.entity.Comment;
+import org.example.rest.api.entity.Post;
+import org.example.rest.api.exception.BlogApiException;
+import org.example.rest.api.exception.ResourceNotFoundException;
+import org.example.rest.api.repository.CommentRepository;
+import org.example.rest.api.repository.PostRepository;
+import org.example.rest.api.service.CommentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;

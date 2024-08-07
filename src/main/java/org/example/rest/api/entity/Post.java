@@ -1,4 +1,4 @@
-package org.example.entity;
+package org.example.rest.api.entity;
 
 
 import jakarta.persistence.*;

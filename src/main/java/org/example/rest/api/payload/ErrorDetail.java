@@ -1,10 +1,9 @@
-package org.example.payload;
+package org.example.rest.api.payload;
 
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.springframework.format.annotation.DateTimeFormat;
 
 import java.util.Date;
 
